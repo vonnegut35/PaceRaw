@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PaceRaw — Преврати FIT-файл в контекст для твоего AI</title>
+  <meta name="description" content="Локальный Android-инструмент: декодирует FIT-файлы тренировок Garmin и COROS, рассчитывает Effort Pace и HR Drift, подготавливая компактный Markdown для ChatGPT, Claude и Gemini.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #090a10;
+      --card-bg: #12141e;
+      --card-border: #1e2235;
+      --accent: #6c5ce7;
+      --accent-glow: rgba(108, 92, 231, 0.35);
+      --accent-light: #a29bfe;
+      --text: #f1f2f6;
+      --text-muted: #8c93a8;
+      --code-bg: #0c0d14;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Hero Section */
+    header {
+      padding: 70px 0 50px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(108, 92, 231, 0.12);
+      border: 1px solid rgba(108, 92, 231, 0.3);
+      border-radius: 99px;
+      color: var(--accent-light);
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(34px, 6vw, 56px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    h1 span {
+      background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .lead {
+      font-size: clamp(17px, 2.5vw, 20px);
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 36px;
+      font-weight: 400;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 32px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 24px var(--accent-glow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(108, 92, 231, 0.5);
+      background: #5d4ce0;
+    }
+
+    .btn-secondary {
+      background: var(--card-bg);
+      color: var(--text);
+      border: 1px solid var(--card-border);
+    }
+
+    .btn-secondary:hover {
+      background: #191c2b;
+      border-color: #2a3048;
+    }
+
+    /* Screenshots Section */
+    .screenshots {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 30px 0 50px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      justify-content: center;
+    }
+
+    .screenshots::-webkit-scrollbar {
+      display: none;
+    }
+
+    .screenshot-card {
+      flex: 0 0 280px;
+      scroll-snap-align: center;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+      background: var(--card-bg);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+
+    .screenshot-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Value Pillars */
+    .pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin: 60px 0;
+    }
+
+    .pillar-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .pillar-card h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pillar-card p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    /* Code Comparison / Showcase */
+    .showcase {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 36px;
+      margin: 40px 0;
+    }
+
+    .showcase-header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .showcase-header h2 {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .showcase-header p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+
+    .code-box {
+      background: var(--code-bg);
+      border: 1px solid #1c1f2e;
+      border-radius: 12px;
+      padding: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: #d1d5db;
+      overflow-x: auto;
+      line-height: 1.6;
+    }
+
+    .code-box .comment {
+      color: #6b7280;
+    }
+
+    .code-box .highlight {
+      color: var(--accent-light);
+      font-weight: 500;
+    }
+
+    /* Workflow Steps */
+    .steps {
+      margin: 80px 0;
+      text-align: center;
+    }
+
+    .steps h2 {
+      font-size: 28px;
+      margin-bottom: 36px;
+    }
+
+    .step-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      text-align: left;
+    }
+
+    .step-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      padding: 24px;
+      border-radius: 14px;
+    }
+
+    .step-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(108, 92, 231, 0.2);
+      color: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .step-item h4 {
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .step-item p {
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .screenshots {
+        justify-content: flex-start;
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+      .showcase {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="badge">Offline Android Utility</div>
+      <h1>Ваша тренировка,<br><span>готовая для любого AI</span></h1>
+      <p class="lead">
+        Декодирует бинарные FIT-файлы Garmin и COROS прямо на телефоне. Считает Effort Pace, кардио-дрейф и укладывает тренировку в чистый контекст для ChatGPT, Claude и Gemini.
+      </p>
+
+      <div class="cta-group">
+        <a href="paceraw.apk" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          Скачать APK (v1.0)
+        </a>
+        <a href="#" class="btn btn-secondary">
+          Доступно в RuStore
+        </a>
+      </div>
+    </header>
+
+    <div class="screenshots">
+      <div class="screenshot-card">
+        <img src="1.png" alt="Импорт FIT из Garmin и COROS">
+      </div>
+      <div class="screenshot-card">
+        <img src="2.png" alt="Декодированные метрики бега">
+      </div>
+      <div class="screenshot-card">
+        <img src="3.png" alt="Копирование готового контекста для AI">
+      </div>
+    </div>
+
+    <div class="pillars">
+      <div class="pillar-card">
+        <h3>🔒 100% Offline & Local</h3>
+        <p>Никаких бэкендов, облаков, аккаунтов и подписок. Обработка многомегабайтного бинарного файла происходит за доли секунды полностью на процессоре вашего устройства.</p>
+      </div>
+      <div class="pillar-card">
+        <h3>📐 Детерминированная математика</h3>
+        <p>LLM плохо считают время и секунды на километр. PaceRaw берет вычисления на себя: точный Moving Pace, HR Drift, темповая вариативность и разбивка кругов.</p>
+      </div>
+      <div class="pillar-card">
+        <h3>⚡ Сжатие контекста в 5000 раз</h3>
+        <p>Сырой дамп тренировки занимает миллионы символов технических логов. PaceRaw упаковывает суть в компактный Markdown (~2 КБ), экономя токены и предотвращая ошибки модели.</p>
+      </div>
+    </div>
+
+    <div class="showcase">
+      <div class="showcase-header">
+        <h2>Что попадает в буфер обмена</h2>
+        <p>Вы получаете структурированный лог, который любая языковая модель понимает с первого раза</p>
+      </div>
+      <div class="code-box">
+<span class="comment"># Workout Data</span>
+<span class="highlight">Context:</span> RUNNING | COROS PACE 4
+
+<span class="highlight">Core Metrics:</span>
+- Distance: 9.21 km | Duration: 1:08:04 (Moving: 1:04:12)
+- Moving Pace: 6:56 /km | Best: 4:00 /km
+- Effort Pace: 6:49 /km | Best Effort: 4:00 /km
+- Heart Rate: 129 bpm (Min: 87 / Max: 147)
+- Cadence: 82 spm | Power: 170 W | Elev: +36m / -38m
+
+<span class="highlight">Deterministic Analytics:</span>
+- HR Drift (Aerobic Decoupling): +0.2%
+- Pace Consistency: 7.0%
+- Effort Pace Difference: -8 sec/km
+
+<span class="highlight">Laps Summary:</span>
+Lap 1: 1.0 km | 7:58 /km | HR 127
+Lap 2: 1.0 km | 7:00 /km | HR 132
+...
+      </div>
+    </div>
+
+    <div class="steps">
+      <h2>Как это работает</h2>
+      <div class="step-grid">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <h4>Экспорт</h4>
+          <p>В приложении Garmin Connect или COROS нажмите «Поделиться» тренировкой и выберите PaceRaw.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <h4>Декодирование</h4>
+          <p>Приложение мгновенно декодирует файл, извлечет Effort Pace и посчитает аналитику.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <h4>Вставка в AI</h4>
+          <p>Нажмите «Скопировать для AI» и вставьте данные в любой привычный чат (ChatGPT, Claude, Gemini).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>PaceRaw. Your running data, decoded. Полная приватность ваших тренировок.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
