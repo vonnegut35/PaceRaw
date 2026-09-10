@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PaceRaw — Преврати FIT-файл в контекст для твоего AI</title>
-  <meta name="description" content="Локальный Android-инструмент: декодирует FIT-файлы тренировок Garmin и COROS, рассчитывает Effort Pace и HR Drift, подготавливая компактный Markdown для ChatGPT, Claude и Gemini.">
+  <title>PaceRaw — Превратите FIT-файл в контекст для AI</title>
+  <meta name="description" content="Локальный Android-инструмент: декодирует FIT-файлы тренировок Garmin и COROS, рассчитывает производные метрики и формирует структурированный Markdown для ChatGPT, Claude и Gemini.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,7 +44,6 @@
       padding: 0 24px;
     }
 
-    /* Hero Section */
     header {
       padding: 70px 0 50px;
       text-align: center;
@@ -130,7 +129,6 @@
       border-color: #2a3048;
     }
 
-    /* Screenshots Section */
     .screenshots {
       display: flex;
       gap: 20px;
@@ -161,7 +159,6 @@
       display: block;
     }
 
-    /* Value Pillars */
     .pillars {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -190,7 +187,6 @@
       font-size: 15px;
     }
 
-    /* Code Comparison / Showcase */
     .showcase {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -224,6 +220,7 @@
       color: #d1d5db;
       overflow-x: auto;
       line-height: 1.6;
+      white-space: pre;
     }
 
     .code-box .comment {
@@ -235,7 +232,6 @@
       font-weight: 500;
     }
 
-    /* Workflow Steps */
     .steps {
       margin: 80px 0;
       text-align: center;
@@ -283,7 +279,6 @@
       font-size: 14px;
     }
 
-    /* Contact Section */
     .contact-section {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -334,7 +329,6 @@
       transform: translateY(-1px);
     }
 
-    /* Footer */
     footer {
       border-top: 1px solid var(--card-border);
       padding: 40px 0;
@@ -349,67 +343,197 @@
         padding-left: 12px;
         padding-right: 12px;
       }
-      .showcase, .contact-section {
+
+      .showcase,
+      .contact-section {
         padding: 24px 16px;
       }
     }
   </style>
 </head>
+
 <body>
 
   <div class="container">
+
     <header>
       <div class="badge">Offline Android Utility</div>
-      <h1>Ваша тренировка,<br><span>готовая для любого AI</span></h1>
+
+      <h1>
+        Ваша тренировка,<br>
+        <span>готовая для любого AI</span>
+      </h1>
+
       <p class="lead">
-        Декодирует бинарные FIT-файлы Garmin и COROS прямо на телефоне. Считает Effort Pace, кардио-дрейф и укладывает тренировку в чистый контекст для ChatGPT, Claude и Gemini.
+        Декодирует бинарные FIT-файлы прямо на телефоне, нормализует данные тренировки,
+        рассчитывает производные метрики и формирует компактный структурированный
+        контекст для ChatGPT, Claude и Gemini.
       </p>
 
       <div class="cta-group">
+
         <a href="paceraw.apk" class="btn btn-primary">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
           Скачать APK (v1.0)
         </a>
+
         <a href="#" class="btn btn-secondary">
           Доступно в RuStore
         </a>
+
       </div>
     </header>
 
+
     <div class="screenshots">
+
       <div class="screenshot-card">
         <img src="1.png" alt="Импорт FIT из Garmin и COROS">
       </div>
+
       <div class="screenshot-card">
-        <img src="2.png" alt="Декодированные метрики бега">
+        <img src="2.png" alt="Декодированные метрики тренировки">
       </div>
+
       <div class="screenshot-card">
         <img src="3.png" alt="Копирование готового контекста для AI">
       </div>
+
     </div>
+
 
     <div class="pillars">
+
       <div class="pillar-card">
         <h3>🔒 100% Offline & Local</h3>
-        <p>Никаких бэкендов, облаков, аккаунтов и подписок. Обработка многомегабайтного бинарного файла происходит за доли секунды полностью на процессоре вашего устройства.</p>
+
+        <p>
+          Никаких бэкендов, облаков и аккаунтов.
+          FIT-файл обрабатывается локально на вашем Android-устройстве
+          и не отправляется на сервер PaceRaw.
+        </p>
       </div>
+
+
       <div class="pillar-card">
         <h3>📐 Детерминированная математика</h3>
-        <p>LLM плохо считают время и секунды на километр. PaceRaw берет вычисления на себя: точный Moving Pace, HR Drift, темповая вариативность и разбивка кругов.</p>
+
+        <p>
+          PaceRaw рассчитывает производные метрики до передачи данных в AI:
+          Moving Pace, HR Drift, Pace Consistency, Effort Pace Difference
+          и сводку по Laps. AI получает уже структурированные числовые данные
+          для дальнейшей интерпретации.
+        </p>
       </div>
+
+
       <div class="pillar-card">
-        <h3>⚡ Сжатие контекста в 5000 раз</h3>
-        <p>Сырой дамп тренировки занимает миллионы символов технических логов. PaceRaw упаковывает суть в компактный Markdown (~2 КБ), экономя токены и предотвращая ошибки модели.</p>
+        <h3>⚡ Компактный контекст для AI</h3>
+
+        <p>
+          PaceRaw отбирает ключевые данные тренировки, рассчитывает производные
+          метрики и формирует структурированный текст. AI получает компактный
+          контекст с основными показателями, качеством данных и Laps.
+        </p>
       </div>
+
     </div>
 
+
     <div class="showcase">
+
+      <div class="showcase-header">
+        <h2>Что происходит внутри PaceRaw</h2>
+
+        <p>
+          Декодирование выполняется на Android, а нормализация, аналитика
+          и подготовка AI-контекста — в общем Kotlin Multiplatform-коде.
+        </p>
+      </div>
+
+
+      <div class="code-box">
+Garmin Connect / COROS
+          │
+          │ Share .FIT
+          ▼
+     PaceRaw Android
+          │
+          ▼
+     FIT Decoder
+   (Garmin FIT SDK)
+          │
+          ▼
+     Raw FIT Model
+          │
+          ▼
+      FitNormalizer
+          │
+          ▼
+   Normalized Workout
+          │
+          ▼
+    WorkoutAnalyzer
+          │
+          ├── Moving Time
+          ├── Pace / Effort Pace
+          ├── Heart Rate / HR Drift
+          ├── Cadence / Power
+          ├── Elevation
+          └── Pace Consistency
+          │
+          ▼
+ AI Payload Builder
+          │
+          ▼
+ AI Export Formatter
+          │
+          ▼
+       Clipboard
+          │
+          ▼
+ ChatGPT / Claude / Gemini
+      </div>
+
+    </div>
+
+
+    <div class="pillar-card" style="margin: 24px 0 40px;">
+
+      <h3>🧩 KMP-архитектура</h3>
+
+      <p>
+        Декодирование бинарного FIT-файла привязано к Android-слою.
+        После декодирования данные проходят через FitNormalizer в commonMain,
+        где превращаются в единую модель Workout. Затем WorkoutAnalyzer
+        рассчитывает аналитику, а WorkoutAiPayloadBuilder и AiExportFormatter
+        формируют текст для буфера обмена. PaceRaw сохраняет поддерживаемые
+        developer fields и использует доступные developer metrics,
+        включая Effort Pace.
+      </p>
+
+    </div>
+
+
+    <div class="showcase">
+
       <div class="showcase-header">
         <h2>Что попадает в буфер обмена</h2>
-        <p>Вы получаете структурированный лог, который любая языковая модель понимает с первого раза</p>
+
+        <p>
+          Вы получаете структурированный контекст тренировки,
+          готовый для вставки в любой AI-чат.
+        </p>
       </div>
-      <div class="code-box">
-<span class="comment"># Workout Data</span>
+
+
+      <div class="code-box"><span class="comment"># Workout Data</span>
 <span class="highlight">Context:</span> RUNNING | COROS PACE 4
 
 <span class="highlight">Core Metrics:</span>
@@ -420,63 +544,157 @@
 - Cadence: 82 spm | Power: 170 W | Elev: +36m / -38m
 
 <span class="highlight">Deterministic Analytics:</span>
-- HR Drift (Aerobic Decoupling): +0.2%
-- Pace Consistency: 7.0%
+- HR Drift: +0.2%
+- Pace Consistency (CV): 7.0%
 - Effort Pace Difference: -8 sec/km
 
-<span class="highlight">Laps Summary:</span>
+<span class="highlight">Laps:</span>
 Lap 1: 1.0 km | 7:58 /km | HR 127
 Lap 2: 1.0 km | 7:00 /km | HR 132
 ...
       </div>
+
     </div>
+
 
     <div class="steps">
+
       <h2>Как это работает</h2>
+
       <div class="step-grid">
+
         <div class="step-item">
           <div class="step-num">1</div>
+
           <h4>Экспорт</h4>
-          <p>В приложении Garmin Connect или COROS нажмите «Поделиться» тренировкой и выберите PaceRaw.</p>
+
+          <p>
+            В приложении Garmin Connect или COROS нажмите
+            «Поделиться» тренировкой и выберите PaceRaw.
+          </p>
         </div>
+
+
         <div class="step-item">
           <div class="step-num">2</div>
+
           <h4>Декодирование</h4>
-          <p>Приложение мгновенно декодирует файл, извлечет Effort Pace и посчитает аналитику.</p>
+
+          <p>
+            PaceRaw локально декодирует FIT-файл, нормализует данные
+            и рассчитывает доступную аналитику.
+          </p>
         </div>
+
+
         <div class="step-item">
           <div class="step-num">3</div>
+
           <h4>Вставка в AI</h4>
-          <p>Нажмите «Скопировать для AI» и вставьте данные в любой привычный чат (ChatGPT, Claude, Gemini).</p>
+
+          <p>
+            Нажмите «Скопировать для AI» и вставьте данные
+            в любой привычный чат: ChatGPT, Claude, Gemini и другие.
+          </p>
         </div>
+
       </div>
+
     </div>
+
 
     <div class="contact-section">
+
       <h2>Обратная связь и поддержка</h2>
-      <p>Есть баг-репорт, предложение новой метрики или вопрос? Напишите напрямую разработчику.</p>
-      
+
+      <p>
+        Есть баг-репорт, предложение новой метрики или вопрос?
+        Напишите напрямую разработчику.
+      </p>
+
+
       <div class="contact-links">
-        <a href="https://t.me/kir_kiselev" target="_blank" rel="noopener noreferrer" class="contact-chip">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+
+        <a href="https://t.me/kir_kiselev"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="contact-chip">
+
+          <svg width="18" height="18" viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+
+            <path d="m22 2-7 20-4-9-9-4Z"/>
+            <path d="M22 2 11 13"/>
+
+          </svg>
+
           Telegram
+
         </a>
-        <a href="mailto:kiselevkirill93@gmail.com" class="contact-chip">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+
+
+        <a href="mailto:kiselevkirill93@gmail.com"
+           class="contact-chip">
+
+          <svg width="18" height="18" viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+
+            <rect width="20" height="16" x="2" y="4" rx="2"/>
+            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+
+          </svg>
+
           kiselevkirill93@gmail.com
+
         </a>
-        <a href="https://github.com/vonnegut35/PaceRaw" target="_blank" rel="noopener noreferrer" class="contact-chip">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+
+
+        <a href="https://github.com/vonnegut35/PaceRaw"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="contact-chip">
+
+          <svg width="18" height="18" viewBox="0 0 24 24"
+               fill="none"
+               stroke="currentColor"
+               stroke-width="2"
+               stroke-linecap="round"
+               stroke-linejoin="round">
+
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+
+          </svg>
+
           GitHub Issues
+
         </a>
+
       </div>
+
     </div>
+
   </div>
 
+
   <footer>
+
     <div class="container">
-      <p>© 2026 PaceRaw. Your running data, decoded. Полная приватность ваших тренировок.</p>
+
+      <p>
+        © 2026 PaceRaw. Your running data, decoded.
+        Обработка FIT-файлов происходит локально на вашем устройстве.
+      </p>
+
     </div>
+
   </footer>
 
 </body>
